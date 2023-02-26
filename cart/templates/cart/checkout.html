@@ -1,0 +1,111 @@
+{% extends 'store/base.html' %}
+{% block title %}Estore | Thanh toán{% endblock %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'store:index' %}">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Checkout</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- Checkout Start -->
+        <div class="checkout">
+            <div class="container-fluid"> 
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="col-lg-12">
+                            <div class="checkout-inner">
+                                <div class="billing-address">
+                                    <h2>Địa chỉ nhận hàng</h2>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Họ và tên: {{ request.user.last_name }}  {{request.user.first_name}}</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>E-mail: {{ request.user.email }}</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Số điện thoại: {{ mobile }}</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>Địa chỉ: {{ address }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="cart-page-inner">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Tên sản phẩm</th>
+                                                <th>Đơn giá</th>
+                                                <th>Số lượng</th>
+                                                <th>Thành tiền</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="align-middle">
+                                            {% for c in cart %}
+                                                {% with product=c.product %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>
+                                                    <div class="img">
+                                                        <a href="{% url 'store:product-detail' product.pk %}"><img src="{{ product.image.url }}" alt="" style="object-fit: cover; position: relative; width: 20%; height: 20%;"></a>
+                                                        <p><a href="{% url 'store:product-detail' product.pk %}"></a>{{ product.name }}</p>
+                                                    </div>
+                                                </td>
+                                                <td>{{ c.price|floatformat:0|intcomma }}</td>
+                                                <td>{{ c.quantity }}</td>
+                                                <td>{{ c.total_price|floatformat:0|intcomma }}</td>
+                                            </tr>
+                                                {% endwith %}
+                                            {% endfor %}
+                                            <tr>
+                                                <td colspan="2" style="text-align: right;">
+                                                    <a class="btn" href="{% url 'store:index' %}">Tiếp tục mua hàng</a>
+                                                    <a class="btn" href="{% url 'cart:cart_detail' %}">Cập nhật giỏ hàng</a>
+                                                </td>
+                                                <td colspan="2" style="text-align: right;"><b>Tổng cộng:</b></td>
+                                                <td style="text-align: right;"><b>{{ cart.get_final_total_price|floatformat:0|intcomma }} VND</b></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="checkout-inner">
+                                <div class="checkout-summary">
+                                    <h1>Thông tin đơn hàng</h1>
+                                    <p class="sub-total">Tạm tính<span>{{ cart.get_total_price|floatformat:0|intcomma }} VND</span></p>
+                                    <p class="ship-cost">Giảm giá<span>{{ cart.get_discount|floatformat:0|intcomma }} VND</span></p>
+                                    <h2>Tổng thành tiền<span>{{ cart.get_final_total_price|floatformat:0|intcomma }} VND</span></h2>
+                                </div>
+
+                                <div class="checkout-payment">
+                                    <div class="checkout-btn">
+                                        <button type="submit" name="btnOrder" value="Order">Đặt hàng</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Checkout End -->
+        
+ {% endblock %}

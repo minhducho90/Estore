@@ -1,0 +1,99 @@
+{% extends 'store/base.html' %}
+{% block title%} Estore | Đăng Nhập{% endblock %}
+{% load static %}
+{% block content %}
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'store:index' %}">Home</a></li>
+                    <li class="breadcrumb-item active">Đăng Nhập & Đăng Ký</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- Login Start -->
+        <div class="login">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6">    
+                        <div class="register-form">
+                            <h2>Đăng ký</h2>
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ result_signup|safe }}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>{{ form_user.last_name.label }}</label>
+                                        {{ form_user.last_name }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>{{ form_user.first_name.label }}</label>
+                                        {{ form_user.first_name }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>{{ form_user.username.label }}</label>
+                                        {{ form_user.username }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>{{ form_user.email.label }}</label>
+                                        {{ form_user.email }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>{{ form_customer.dien_thoai.label }}</label>
+                                        {{ form_customer.dien_thoai }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>{{ form_user.password.label }}</label>
+                                        {{ form_user.password }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>{{ form_user.confirm_password.label }}</label>
+                                        {{ form_user.confirm_password }}
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>{{ form_customer.dia_chi.label }}</label>
+                                        {{ form_customer.dia_chi }}
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button class="btn" type="submit" name="btnSignup" value="Signup">Đăng ký</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="login-form">
+                            <h2>Đăng Nhập</h2>
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ result_login|safe }}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>E-mail / Tên Đăng nhập</label>
+                                        <input class="form-control" type="text" name="email" placeholder="E-mail / Tên Đăng nhập">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Mật khẩu</label>
+                                        <input class="form-control" type="password" name="password" placeholder="Password">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="newaccount">
+                                            <label class="custom-control-label" for="newaccount">Keep me signed in</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button class="btn" type="submit" name="btnLogin" value="Login">Đăng Nhập</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Login End -->
+        
+{% endblock %}
